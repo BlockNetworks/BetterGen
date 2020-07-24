@@ -296,10 +296,10 @@ class BetterNormal extends Generator
 		$cover = new GroundCover();
 		$this->generationPopulators[] = $cover;
 
-			/*$lake = new LakePopulator();
+			$lake = new LakePopulator();
 			$lake->setBaseAmount(0);
 			$lake->setRandomAmount(1);
-			$this->generationPopulators[] = $lake;*/
+			$this->generationPopulators[] = $lake;
 
 			$cave = new CavePopulator ();
 			$cave->setBaseAmount(0);
