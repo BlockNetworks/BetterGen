@@ -147,6 +147,8 @@ class BetterNormal extends Generator
 
 	public function generateChunk(int $chunkX, int $chunkZ): void
 	{
+		$this->random->setSeed(0xdeadbeef ^ ($chunkX << 8) ^ $chunkZ ^ $this->seed);
+
 		$noise = $this->noiseBase->getFastNoise3D(16, 128, 16, 4, 8, 4, $chunkX * 16, 0, $chunkZ * 16);
 
 		$chunk = $this->world->getChunk($chunkX, $chunkZ);
@@ -212,7 +214,7 @@ class BetterNormal extends Generator
 
 	public function populateChunk(int $chunkX, int $chunkZ): void
 	{
-		$this->random->setSeed(0xdeadbeef ^ ($chunkX << 8) ^ $chunkZ ^ $this->world->getSeed());
+		$this->random->setSeed(0xdeadbeef ^ ($chunkX << 8) ^ $chunkZ ^ $this->seed);
 		foreach ($this->populators as $populator) {
 			$populator->populate($this->world, $chunkX, $chunkZ, $this->random);
 		}
@@ -242,7 +244,7 @@ class BetterNormal extends Generator
 
 		self::$levels[] = $world;
 
-		$this->random->setSeed($seed);
+		$this->random->setSeed($this->seed);
 		$this->noiseBase = new Simplex($this->random, 4, 1 / 4, 1 / 32);
 
 		$this->registerBiome(Biome::getBiome(Biome::OCEAN));
