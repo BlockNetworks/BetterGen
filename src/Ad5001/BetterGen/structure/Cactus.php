@@ -1,10 +1,10 @@
 <?php
 /**
- *  ____             __     __                    ____                       
- * /\  _`\          /\ \__ /\ \__                /\  _`\                     
- * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___    
- *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\  
- *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \ 
+ *  ____             __     __                    ____
+ * /\  _`\          /\ \__ /\ \__                /\  _`\
+ * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___
+ *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\
+ *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \
  *    \ \____/\ \____\ \ \__\ \ \__\\ \____\\ \_\   \ \____/\ \____\\ \_\ \_\
  *     \/___/  \/____/  \/__/  \/__/ \/____/ \/_/    \/___/  \/____/ \/_/\/_/
  * Tomorrow's pocketmine generator.
@@ -21,7 +21,8 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 
-class Cactus{
+class Cactus
+{
 	protected $totalHeight;
 
 	/**
@@ -34,10 +35,11 @@ class Cactus{
 	 * @param Random $random
 	 * @return bool
 	 */
-	public function canPlaceObject(ChunkManager $world, int $x, int $y, int $z, Random $random): bool {
+	public function canPlaceObject(ChunkManager $world, int $x, int $y, int $z, Random $random): bool
+	{
 		$this->totalHeight = 1 + $random->nextBoundedInt(3);
 		$below = $world->getBlockAt($x, $y - 1, $z);
-		for($yy = $y; $yy <= $y + $this->totalHeight; $yy ++) {
+		for ($yy = $y; $yy <= $y + $this->totalHeight; $yy++) {
 			if (
 				$world->getBlockAt($x, $yy, $z) !== VanillaBlocks::AIR() || ($below !== VanillaBlocks::SAND() && $below !== VanillaBlocks::CACTUS()) ||
 				(
@@ -49,7 +51,7 @@ class Cactus{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Places a cactus
 	 *
@@ -59,8 +61,9 @@ class Cactus{
 	 * @param int $z
 	 * @return void
 	 */
-	public function placeObject(ChunkManager $world, int $x, int $y, int $z) {
-		for($yy = 0; $yy < $this->totalHeight; $yy ++) {
+	public function placeObject(ChunkManager $world, int $x, int $y, int $z)
+	{
+		for ($yy = 0; $yy < $this->totalHeight; $yy++) {
 			if ($world->getBlockAt($x, $y + $yy, $z) !== VanillaBlocks::AIR()) {
 				return;
 			}

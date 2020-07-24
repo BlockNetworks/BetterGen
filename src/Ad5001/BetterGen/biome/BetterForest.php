@@ -1,11 +1,11 @@
 <?php
 
 /**
- *  ____             __     __                    ____                       
- * /\  _`\          /\ \__ /\ \__                /\  _`\                     
- * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___    
- *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\  
- *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \ 
+ *  ____             __     __                    ____
+ * /\  _`\          /\ \__ /\ \__                /\  _`\
+ * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___
+ *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\
+ *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \
  *    \ \____/\ \____\ \ \__\ \ \__\\ \____\\ \_\   \ \____/\ \____\\ \_\ \_\
  *     \/___/  \/____/  \/__/  \/__/ \/____/ \/_/    \/___/  \/____/ \/_/\/_/
  * Tomorrow's pocketmine generator.
@@ -18,10 +18,7 @@
 
 namespace Ad5001\BetterGen\biome;
 
-use Ad5001\BetterGen\generator\BetterNormal;
-use Ad5001\BetterGen\Main;
 use pocketmine\block\utils\TreeType;
-use pocketmine\world\biome\Biome;
 use pocketmine\world\biome\ForestBiome;
 use pocketmine\world\generator\populator\TallGrass;
 use pocketmine\world\generator\populator\Tree;
@@ -34,19 +31,19 @@ class BetterForest extends ForestBiome implements Mountainable
 	{
 		parent::__construct($type);
 		$this->clearPopulators();
-		
+
 		$this->type = $type;
 
 		$trees = new Tree($type);
 		$trees->setBaseAmount(5);
 		$this->addPopulator($trees);
-		
+
 		$tallGrass = new TallGrass();
 		$tallGrass->setBaseAmount(3);
 		$this->addPopulator($tallGrass);
-		
+
 		$this->setElevation(63, 69);
-		
+
 		$this->temperature = $infos[0];
 		$this->rainfall = $infos[1];
 	}

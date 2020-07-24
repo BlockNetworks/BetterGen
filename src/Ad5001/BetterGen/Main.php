@@ -49,7 +49,8 @@ class Main extends PluginBase
 	 * @param Block $block
 	 * @return void
 	 */
-	public static function buildRandom(ChunkManager $world, Vector3 $pos, Vector3 $infos, Random $random, Block $block) {
+	public static function buildRandom(ChunkManager $world, Vector3 $pos, Vector3 $infos, Random $random, Block $block)
+	{
 		$doNotOverwrite = [
 			BlockLegacyIds::WATER,
 			BlockLegacyIds::STILL_WATER,
@@ -64,10 +65,10 @@ class Main extends PluginBase
 		$yBounded = $random->nextBoundedInt(3) - 1;
 		$zBounded = $random->nextBoundedInt(3) - 1;
 		$pos = $pos->round();
-		for($x = $pos->x -($infos->x / 2); $x <= $pos->x +($infos->x / 2); $x++) {
-			for($y = $pos->y -($infos->y / 2); $y <= $pos->y +($infos->y / 2); $y++) {
-				for($z = $pos->z -($infos->z / 2); $z <= $pos->z +($infos->z / 2); $z++) {
-					if(abs((abs($x) - abs($pos->x)) ** 2 +($y - $pos->y) ** 2 +(abs($z) - abs($pos->z)) ** 2) < ((($infos->x / 2 - $xBounded) +($infos->y / 2 - $yBounded) +($infos->z / 2 - $zBounded)) / 3) ** 2 &&
+		for ($x = $pos->x - ($infos->x / 2); $x <= $pos->x + ($infos->x / 2); $x++) {
+			for ($y = $pos->y - ($infos->y / 2); $y <= $pos->y + ($infos->y / 2); $y++) {
+				for ($z = $pos->z - ($infos->z / 2); $z <= $pos->z + ($infos->z / 2); $z++) {
+					if (abs((abs($x) - abs($pos->x)) ** 2 + ($y - $pos->y) ** 2 + (abs($z) - abs($pos->z)) ** 2) < ((($infos->x / 2 - $xBounded) + ($infos->y / 2 - $yBounded) + ($infos->z / 2 - $zBounded)) / 3) ** 2 &&
 						$y > 0 && !in_array($world->getBlockAt($x, $y, $z)->getId(), $doNotOverwrite) &&
 						!in_array($world->getBlockAt($x, $y + 1, $z), $doNotOverwrite)
 					) {

@@ -1,10 +1,10 @@
 <?php
 /**
- *  ____             __     __                    ____                       
- * /\  _`\          /\ \__ /\ \__                /\  _`\                     
- * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___    
- *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\  
- *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \ 
+ *  ____             __     __                    ____
+ * /\  _`\          /\ \__ /\ \__                /\  _`\
+ * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___
+ *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\
+ *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \
  *    \ \____/\ \____\ \ \__\ \ \__\\ \____\\ \_\   \ \____/\ \____\\ \_\ \_\
  *     \/___/  \/____/  \/__/  \/__/ \/____/ \/_/    \/___/  \/____/ \/_/\/_/
  * Tomorrow's pocketmine generator.
@@ -14,6 +14,7 @@
  * @api 3.0.0
  * @version 1.1
  */
+
 namespace Ad5001\BetterGen\generator;
 
 use pocketmine\utils\Random;
@@ -21,16 +22,17 @@ use pocketmine\world\biome\Biome;
 use pocketmine\world\generator\biome\BiomeSelector;
 use pocketmine\world\generator\noise\Simplex;
 
-class BetterBiomeSelector extends BiomeSelector {
-	
+class BetterBiomeSelector extends BiomeSelector
+{
+
 	/** @var Biome */
 	protected $fallback;
-	
+
 	/** @var Simplex */
 	protected $temperature;
 	/** @var Simplex */
 	protected $rainfall;
-	
+
 	/** @var Biome[] */
 	protected $biomes = [];
 
@@ -44,7 +46,8 @@ class BetterBiomeSelector extends BiomeSelector {
 	 * @param callable $lookup
 	 * @param Biome $fallback
 	 */
-	public function __construct(Random $random, callable $lookup, Biome $fallback) {
+	public function __construct(Random $random, callable $lookup, Biome $fallback)
+	{
 		parent::__construct($random);
 		$this->fallback = $fallback;
 		$this->lookup = $lookup;
@@ -57,18 +60,24 @@ class BetterBiomeSelector extends BiomeSelector {
 	 *
 	 * @return void
 	 */
-	public function recalculate(): void{} // Using our own system, No need for that
+	public function recalculate(): void
+	{
+	} // Using our own system, No need for that
 
-	public function lookup(float $temperature, float $rainfall): int{return 0;} //unused
+	public function lookup(float $temperature, float $rainfall): int
+	{
+		return 0;
+	} //unused
 
 	/**
 	 * Adds a biome to the selector. Don't do this directly. Use BetterNormal::registerBiome
 	 *
-	 * @internal This method is called by BetterNormal::registerBiome
 	 * @param Biome $biome
 	 * @return void
+	 * @internal This method is called by BetterNormal::registerBiome
 	 */
-	public function addBiome(Biome $biome) {
+	public function addBiome(Biome $biome)
+	{
 		$this->biomes[$biome->getId()] = $biome;
 	}
 
@@ -79,7 +88,8 @@ class BetterBiomeSelector extends BiomeSelector {
 	 * @param int $z
 	 * @return float
 	 */
-	public function getTemperature($x, $z) {
+	public function getTemperature($x, $z)
+	{
 		return ($this->temperature->noise2D($x, $z, true) + 1) / 2;
 	}
 
@@ -90,24 +100,25 @@ class BetterBiomeSelector extends BiomeSelector {
 	 * @param int $z
 	 * @return float
 	 */
-	public function getRainfall($x, $z) {
+	public function getRainfall($x, $z)
+	{
 		return ($this->rainfall->noise2D($x, $z, true) + 1) / 2;
 	}
-	
+
 	/**
 	 * Picks a biome relative to $x and $z
 	 *
 	 * @param int $x
 	 * @param int $z
-	 *        	
+	 *
 	 * @return Biome
 	 */
-	public function pickBiome($x, $z): Biome {
+	public function pickBiome($x, $z): Biome
+	{
 		$temperature = ($this->getTemperature($x, $z));
 		$rainfall = ($this->getRainfall($x, $z));
-		
+
 		$biomeId = BetterNormal::getBiome($temperature, $rainfall);
-		$b = (($biomeId instanceof Biome) ? $biomeId : ($this->biomes[$biomeId] ?? $this->fallback));
-		return $b;
+		return (($biomeId instanceof Biome) ? $biomeId : ($this->biomes[$biomeId] ?? $this->fallback));
 	}
 }

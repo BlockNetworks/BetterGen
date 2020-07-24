@@ -17,7 +17,7 @@
 
 namespace Ad5001\BetterGen\populator;
 
-use pocketmine\block\Block;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
@@ -83,6 +83,16 @@ class RavinePopulator extends AmountPopulator
 
 	protected function buildRavinePart($x, $y, $z, $height, $length, Random $random): void
 	{
+		$doNotOverwrite = [
+			BlockLegacyIds::WATER,
+			BlockLegacyIds::STILL_WATER,
+			BlockLegacyIds::STILL_LAVA,
+			BlockLegacyIds::LAVA,
+			BlockLegacyIds::BEDROCK,
+			BlockLegacyIds::CACTUS,
+			BlockLegacyIds::PLANKS
+		];
+
 		$xBounded = 0;
 		$zBounded = 0;
 		for ($xx = $x - $length; $xx <= $x + $length; $xx++) {
@@ -106,7 +116,7 @@ class RavinePopulator extends AmountPopulator
 					} else {
 						$zBounded = $oldZB;
 					}
-					if (abs((abs($xx) - abs($x)) ** 2 + (abs($zz) - abs($z)) ** 2) < ((($length / 2 - $xBounded) + ($length / 2 - $zBounded)) / 2) ** 2 && $y > 0 && !in_array($this->world->getBlockIdAt(( int)round($xx), (int)round($yy), (int)round($zz)), BuildingUtils::TO_NOT_OVERWRITE) && !in_array($this->world->getBlockIdAt(( int)round($xx), (int)round($yy + 1), (int)round($zz)), BuildingUtils::TO_NOT_OVERWRITE)) {
+					if (abs((abs($xx) - abs($x)) ** 2 + (abs($zz) - abs($z)) ** 2) < ((($length / 2 - $xBounded) + ($length / 2 - $zBounded)) / 2) ** 2 && $y > 0 && !in_array($this->world->getBlockAt(( int)round($xx), (int)round($yy), (int)round($zz)), $doNotOverwrite) && !in_array($this->world->getBlockAt(( int)round($xx), (int)round($yy + 1), (int)round($zz)), $doNotOverwrite)) {
 						$this->world->setBlockAt(( int)round($xx), (int)round($yy), (int)round($zz), VanillaBlocks::AIR());
 					}
 				}

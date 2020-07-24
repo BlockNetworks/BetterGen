@@ -15,11 +15,8 @@
 
 namespace Ad5001\BetterGen\populator;
 
-use pocketmine\block\BlockLegacyIds;
-use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\generator\populator\Populator;
-use pocketmine\world\World;
 
 abstract class AmountPopulator extends Populator
 {

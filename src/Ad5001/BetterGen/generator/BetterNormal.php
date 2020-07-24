@@ -24,7 +24,6 @@ use Ad5001\BetterGen\biome\BetterMesa;
 use Ad5001\BetterGen\biome\BetterMesaPlains;
 use Ad5001\BetterGen\biome\BetterRiver;
 use Ad5001\BetterGen\biome\Mountainable;
-use Ad5001\BetterGen\Main;
 use Ad5001\BetterGen\populator\CavePopulator;
 use Ad5001\BetterGen\populator\LakePopulator;
 use Ad5001\BetterGen\populator\RavinePopulator;
@@ -81,13 +80,6 @@ class BetterNormal extends Generator
 	protected $waterHeight = 63;
 	protected $noiseBase;
 
-	/**
-	 * Picks a biome by X and Z
-	 *
-	 * @param    $x    int
-	 * @param    $z    int
-	 * @return Biome
-	 */
 	public function pickBiome($x, $z): Biome
 	{
 		$hash = $x * 2345803 ^ $z * 9236449 ^ $this->random->getSeed();
@@ -238,11 +230,6 @@ class BetterNormal extends Generator
 		$biome->populateChunk($this->world, $chunkX, $chunkZ, $this->random);
 	}
 
-	/**
-	 * Constructs the class
-	 *
-	 * @param array $options
-	 */
 	public function __construct(ChunkManager $world, int $seed, array $options = [])
 	{
 		parent::__construct($world, $seed, $options);
@@ -296,38 +283,35 @@ class BetterNormal extends Generator
 		$cover = new GroundCover();
 		$this->generationPopulators[] = $cover;
 
-			$lake = new LakePopulator();
-			$lake->setBaseAmount(0);
-			$lake->setRandomAmount(1);
-			$this->generationPopulators[] = $lake;
+		$lake = new LakePopulator();
+		$lake->setBaseAmount(0);
+		$lake->setRandomAmount(1);
+		$this->generationPopulators[] = $lake;
 
-			$cave = new CavePopulator ();
-			$cave->setBaseAmount(0);
-			$cave->setRandomAmount(2);
-			$this->generationPopulators[] = $cave;
+		$cave = new CavePopulator ();
+		$cave->setBaseAmount(0);
+		$cave->setRandomAmount(2);
+		$this->generationPopulators[] = $cave;
 
-			$ravine = new RavinePopulator ();
-			$ravine->setBaseAmount(0);
-			$ravine->setRandomAmount(51);
-			$this->generationPopulators[] = $ravine;
+		$ravine = new RavinePopulator ();
+		$ravine->setBaseAmount(0);
+		$ravine->setRandomAmount(51);
+		$this->generationPopulators[] = $ravine;
 
-			$ores = new Ore();
-			$ores->setOreTypes([
-				new OreType(VanillaBlocks::COAL_ORE(), 20, 16, 0, 128),
-				new OreType(VanillaBlocks::IRON_ORE(), 20, 8, 0, 64),
-				new OreType(VanillaBlocks::REDSTONE_ORE(), 8, 7, 0, 16),
-				new OreType(VanillaBlocks::LAPIS_LAZULI_ORE(), 1, 6, 0, 32),
-				new OreType(VanillaBlocks::GOLD_ORE(), 2, 8, 0, 32),
-				new OreType(VanillaBlocks::DIAMOND_ORE(), 1, 7, 0, 16),
-				new OreType(VanillaBlocks::DIRT(), 20, 32, 0, 128),
-				new OreType(VanillaBlocks::GRAVEL(), 10, 16, 0, 128)
-			]);
-			$this->populators[] = $ores;
+		$ores = new Ore();
+		$ores->setOreTypes([
+			new OreType(VanillaBlocks::COAL_ORE(), 20, 16, 0, 128),
+			new OreType(VanillaBlocks::IRON_ORE(), 20, 8, 0, 64),
+			new OreType(VanillaBlocks::REDSTONE_ORE(), 8, 7, 0, 16),
+			new OreType(VanillaBlocks::LAPIS_LAZULI_ORE(), 1, 6, 0, 32),
+			new OreType(VanillaBlocks::GOLD_ORE(), 2, 8, 0, 32),
+			new OreType(VanillaBlocks::DIAMOND_ORE(), 1, 7, 0, 16),
+			new OreType(VanillaBlocks::DIRT(), 20, 32, 0, 128),
+			new OreType(VanillaBlocks::GRAVEL(), 10, 16, 0, 128)
+		]);
+		$this->populators[] = $ores;
 	}
 
-	/**
-	 * Generates the generation kernel based on smooth size (here 2)
-	 */
 	protected static function generateKernel()
 	{
 		self::$GAUSSIAN_KERNEL = [];
@@ -346,11 +330,6 @@ class BetterNormal extends Generator
 		}
 	}
 
-	/**
-	 * Return the name of the generator
-	 *
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return "betternormal";

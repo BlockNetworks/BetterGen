@@ -1,10 +1,10 @@
 <?php
 /**
- *  ____             __     __                    ____                       
- * /\  _`\          /\ \__ /\ \__                /\  _`\                     
- * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___    
- *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\  
- *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \ 
+ *  ____             __     __                    ____
+ * /\  _`\          /\ \__ /\ \__                /\  _`\
+ * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___
+ *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\
+ *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \
  *    \ \____/\ \____\ \ \__\ \ \__\\ \____\\ \_\   \ \____/\ \____\\ \_\ \_\
  *     \/___/  \/____/  \/__/  \/__/ \/____/ \/_/    \/___/  \/____/ \/_/\/_/
  * Tomorrow's pocketmine generator.
@@ -26,8 +26,8 @@ class BetterRiver extends Biome
 	public function __construct()
 	{
 		$this->clearPopulators();
-		
-		$this->setGroundCover([ 
+
+		$this->setGroundCover([
 			VanillaBlocks::SAND(),
 			VanillaBlocks::SAND(),
 			VanillaBlocks::SAND(),
@@ -40,9 +40,9 @@ class BetterRiver extends Biome
 			VanillaBlocks::SANDSTONE(),
 			VanillaBlocks::SANDSTONE()
 		]);
-		
+
 		$this->setElevation(60, 60);
-		
+
 		$this->temperature = 0.5;
 		$this->rainfall = 0.7;
 	}

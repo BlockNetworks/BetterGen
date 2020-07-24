@@ -38,7 +38,7 @@ class DeadbushPopulator extends AmountPopulator
 			$z = $random->nextRange($chunkZ * 16, $chunkZ * 16 + 15);
 			if (!in_array($world->getChunk($chunkX, $chunkZ)->getBiomeId(abs($x % 16), ($z % 16)), [40, 39, Biome::DESERT])) continue;
 			$y = $this->getHighestWorkableBlock($x, $z);
-			if ($y !== -1 && $world->getBlockAt($x, $y - 1, $z) == VanillaBlocks::SAND()) {
+			if ($y !== -1 && $world->getBlockAt($x, $y - 1, $z) === VanillaBlocks::SAND()) {
 				$world->setBlockAt($x, $y, $z, VanillaBlocks::DEAD_BUSH());
 			}
 		}
