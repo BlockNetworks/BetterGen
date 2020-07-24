@@ -70,7 +70,7 @@ class Main extends PluginBase
 				for ($z = $pos->z - ($infos->z / 2); $z <= $pos->z + ($infos->z / 2); $z++) {
 					if (abs((abs($x) - abs($pos->x)) ** 2 + ($y - $pos->y) ** 2 + (abs($z) - abs($pos->z)) ** 2) < ((($infos->x / 2 - $xBounded) + ($infos->y / 2 - $yBounded) + ($infos->z / 2 - $zBounded)) / 3) ** 2 &&
 						$y > 0 && !in_array($world->getBlockAt($x, $y, $z)->getId(), $doNotOverwrite) &&
-						!in_array($world->getBlockAt($x, $y + 1, $z), $doNotOverwrite)
+						!in_array($world->getBlockAt($x, $y + 1, $z)->getId(), $doNotOverwrite)
 					) {
 						$world->setBlockAt($x, $y, $z, $block);
 					}

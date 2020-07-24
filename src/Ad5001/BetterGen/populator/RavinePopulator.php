@@ -17,6 +17,7 @@
 
 namespace Ad5001\BetterGen\populator;
 
+use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
@@ -116,7 +117,8 @@ class RavinePopulator extends AmountPopulator
 					} else {
 						$zBounded = $oldZB;
 					}
-					if (abs((abs($xx) - abs($x)) ** 2 + (abs($zz) - abs($z)) ** 2) < ((($length / 2 - $xBounded) + ($length / 2 - $zBounded)) / 2) ** 2 && $y > 0 && !in_array($this->world->getBlockAt(( int)round($xx), (int)round($yy), (int)round($zz)), $doNotOverwrite) && !in_array($this->world->getBlockAt(( int)round($xx), (int)round($yy + 1), (int)round($zz)), $doNotOverwrite)) {
+					if (abs((abs($xx) - abs($x)) ** 2 + (abs($zz) - abs($z)) ** 2) < ((($length / 2 - $xBounded) + ($length / 2 - $zBounded)) / 2) ** 2 && $y > 0 &&
+						!in_array($this->world->getBlockAt((int)round($xx), (int)round($yy), (int)round($zz))->getId(), $doNotOverwrite) && !in_array($this->world->getBlockAt(( int)round($xx), (int)round($yy + 1), (int)round($zz))->getId(), $doNotOverwrite)) {
 						$this->world->setBlockAt(( int)round($xx), (int)round($yy), (int)round($zz), VanillaBlocks::AIR());
 					}
 				}
