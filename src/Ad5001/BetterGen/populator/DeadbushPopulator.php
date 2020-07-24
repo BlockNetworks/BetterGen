@@ -1,10 +1,10 @@
 <?php
 /**
- *  ____             __     __                    ____                       
- * /\  _`\          /\ \__ /\ \__                /\  _`\                     
- * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___    
- *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\  
- *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \ 
+ *  ____             __     __                    ____
+ * /\  _`\          /\ \__ /\ \__                /\  _`\
+ * \ \ \L\ \     __ \ \ ,_\\ \ ,_\     __   _ __ \ \ \L\_\     __     ___
+ *  \ \  _ <'  /'__`\\ \ \/ \ \ \/   /'__`\/\`'__\\ \ \L_L   /'__`\ /' _ `\
+ *   \ \ \L\ \/\  __/ \ \ \_ \ \ \_ /\  __/\ \ \/  \ \ \/, \/\  __/ /\ \/\ \
  *    \ \____/\ \____\ \ \__\ \ \__\\ \____\\ \_\   \ \____/\ \____\\ \_\ \_\
  *     \/___/  \/____/  \/__/  \/__/ \/____/ \/_/    \/___/  \/____/ \/_/\/_/
  * Tomorrow's pocketmine generator.
@@ -17,37 +17,29 @@
 
 namespace Ad5001\BetterGen\populator;
 
-use Ad5001\BetterGen\generator\BetterBiomeSelector;
-use pocketmine\block\Block;
-use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\biome\Biome;
-use pocketmine\level\Level;
+use pocketmine\block\BlockLegacyIds;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
+use pocketmine\world\biome\Biome;
+use pocketmine\world\ChunkManager;
+use pocketmine\world\World;
 
-class DeadbushPopulator extends AmountPopulator {
+class DeadbushPopulator extends AmountPopulator
+{
 	/** @var ChunkManager */
-	protected $level;
-	
-	/**
-	 * Populates the chunk
-	 *
-	 * @param ChunkManager $level
-	 * @param int $chunkX
-	 * @param int $chunkZ
-	 * @param Random $random
-	 * @return void
-	 */
-	public function populate(ChunkManager $level, $chunkX, $chunkZ, Random $random) {
-		$this->level = $level;
+	protected $world;
+
+	public function populate(ChunkManager $world, $chunkX, $chunkZ, Random $random): void
+	{
+		$this->world = $world;
 		$amount = $this->getAmount($random);
-		for($i = 0; $i < $amount; $i++) {
+		for ($i = 0; $i < $amount; $i++) {
 			$x = $random->nextRange($chunkX * 16, $chunkX * 16 + 15);
 			$z = $random->nextRange($chunkZ * 16, $chunkZ * 16 + 15);
-			if(!in_array($level->getChunk($chunkX, $chunkZ)->getBiomeId(abs($x % 16), ($z % 16)), [40, 39, Biome::DESERT])) continue;
+			if (!in_array($world->getChunk($chunkX, $chunkZ)->getBiomeId(abs($x % 16), ($z % 16)), [40, 39, Biome::DESERT])) continue;
 			$y = $this->getHighestWorkableBlock($x, $z);
-			if ($y !== -1 && $level->getBlockIdAt($x, $y - 1, $z) == Block::SAND) {
-				$level->setBlockIdAt($x, $y, $z, Block::DEAD_BUSH);
-				$level->setBlockDataAt($x, $y, $z, 1);
+			if ($y !== -1 && $world->getBlockAt($x, $y - 1, $z) == VanillaBlocks::SAND()) {
+				$world->setBlockAt($x, $y, $z, VanillaBlocks::DEAD_BUSH());
 			}
 		}
 	}
@@ -58,12 +50,13 @@ class DeadbushPopulator extends AmountPopulator {
 	 * @param $z
 	 * @return int
 	 */
-	protected function getHighestWorkableBlock($x, $z){
-		for($y = Level::Y_MAX - 1; $y > 0; --$y){
-			$b = $this->level->getBlockIdAt($x, $y, $z);
-			if($b === Block::DIRT or $b === Block::GRASS or $b === Block::SAND or $b === Block::SANDSTONE or $b === Block::HARDENED_CLAY or $b === Block::STAINED_HARDENED_CLAY){
+	protected function getHighestWorkableBlock(int $x, int $z): int
+	{
+		for ($y = World::Y_MAX - 1; $y > 0; --$y) {
+			$b = $this->world->getBlockAt($x, $y, $z);
+			if ($b === VanillaBlocks::DIRT() or $b === VanillaBlocks::GRASS() or $b === VanillaBlocks::SAND() or $b === VanillaBlocks::SANDSTONE() or $b === VanillaBlocks::HARDENED_CLAY() or $b->getId() === BlockLegacyIds::STAINED_HARDENED_CLAY) {
 				break;
-			}elseif($b !== Block::AIR){
+			} elseif ($b !== VanillaBlocks::AIR()) {
 				return -1;
 			}
 		}

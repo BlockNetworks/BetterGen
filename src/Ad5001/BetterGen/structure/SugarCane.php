@@ -18,12 +18,11 @@
 
 namespace Ad5001\BetterGen\structure;
 
-use pocketmine\block\Block;
-use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\object\PopulatorObject;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
+use pocketmine\world\ChunkManager;
 
-class SugarCane extends PopulatorObject {
+class SugarCane{
 	
 	protected $totalHeight;
 
@@ -39,8 +38,12 @@ class SugarCane extends PopulatorObject {
 	 */
 	public function canPlaceObject(ChunkManager $level, int $x, int $y, int $z, Random $random): bool {
 		$this->totalHeight = 1 + $random->nextBoundedInt(3);
-		$below = $level->getBlockIdAt($x, $y - 1, $z);
-		if (($below == Block::SAND || $below == Block::GRASS) && ($level->getBlockIdAt($x + 1, $y - 1, $z) == Block::WATER || $level->getBlockIdAt($x - 1, $y - 1, $z) == Block::WATER || $level->getBlockIdAt($x, $y - 1, $z + 1) == Block::WATER || $level->getBlockIdAt($x, $y - 1, $z - 1) == Block::WATER)) {
+		$below = $level->getBlockAt($x, $y - 1, $z);
+		if (
+			($below === VanillaBlocks::SAND() || $below === VanillaBlocks::GRASS()) &&
+			($level->getBlockAt($x + 1, $y - 1, $z) === VanillaBlocks::WATER() || $level->getBlockAt($x - 1, $y - 1, $z) === VanillaBlocks::WATER()
+				|| $level->getBlockAt($x, $y - 1, $z + 1) === VanillaBlocks::WATER() || $level->getBlockAt($x, $y - 1, $z - 1) === VanillaBlocks::WATER()
+			)) {
 			return true;
 		}
 		return false;
@@ -57,10 +60,10 @@ class SugarCane extends PopulatorObject {
 	 */
 	public function placeObject(ChunkManager $level, int $x, int $y, int $z) {
 		for($yy = 0; $yy < $this->totalHeight; $yy ++) {
-			if ($level->getBlockIdAt($x, $y + $yy, $z) != Block::AIR) {
+			if ($level->getBlockAt($x, $y + $yy, $z) !== VanillaBlocks::AIR()) {
 				return;
 			}
-			$level->setBlockIdAt($x, $y + $yy, $z, Block::SUGARCANE_BLOCK);
+			$level->setBlockAt($x, $y + $yy, $z, VanillaBlocks::SUGARCANE());
 		}
 	}
 }

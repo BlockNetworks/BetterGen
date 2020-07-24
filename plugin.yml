@@ -20,25 +20,5 @@ contributors:
 main: Ad5001\BetterGen\Main
 version: 1.1
 load: STARTUP
-api: [3.0.0-ALPHA12]
-commands:
-    createworld:
-        description: Generates a new world.
-        usage: "/createworld <name> [generator = betternormal] [seed = rand()] [options (json)]"
-        permission: bettergen.cmd.createworld
-    worldtp:
-        description: Teleports you to an another world
-        usage: "/worldtp <world name>"
-        permission: bettergen.cmd.worldtp
-    temple:
-        description: Spawns a temple for debugging
-        usage: "/temple"
-        permission: bettergen.cmd.debug
-permissions:
-    bettergen.cmd.createworld:
-        default: op
-    bettergen.cmd.worldtp:
-        default: op
-    bettergen.cmd.debug:
-        default: op
+api: [4.0.0]
 ...

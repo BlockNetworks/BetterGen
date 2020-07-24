@@ -17,30 +17,33 @@
 
 namespace Ad5001\BetterGen\structure;
 
-use pocketmine\block\Block;
-use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\object\PopulatorObject;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
+use pocketmine\world\ChunkManager;
 
-class Cactus extends PopulatorObject {
-	
+class Cactus{
 	protected $totalHeight;
 
 	/**
 	 * Checks if a cactus is placeable
 	 *
-	 * @param ChunkManager $level
+	 * @param ChunkManager $world
 	 * @param int $x
 	 * @param int $y
 	 * @param int $z
 	 * @param Random $random
 	 * @return bool
 	 */
-	public function canPlaceObject(ChunkManager $level, int $x, int $y, int $z, Random $random): bool {
+	public function canPlaceObject(ChunkManager $world, int $x, int $y, int $z, Random $random): bool {
 		$this->totalHeight = 1 + $random->nextBoundedInt(3);
-		$below = $level->getBlockIdAt($x, $y - 1, $z);
+		$below = $world->getBlockAt($x, $y - 1, $z);
 		for($yy = $y; $yy <= $y + $this->totalHeight; $yy ++) {
-			if ($level->getBlockIdAt($x, $yy, $z) !== Block::AIR || ($below !== Block::SAND && $below !== Block::CACTUS) || ($level->getBlockIdAt($x - 1, $yy, $z) !== Block::AIR || $level->getBlockIdAt($x + 1, $yy, $z) !== Block::AIR || $level->getBlockIdAt($x, $yy, $z - 1) !== Block::AIR || $level->getBlockIdAt($x, $yy, $z + 1) !== Block::AIR)) {
+			if (
+				$world->getBlockAt($x, $yy, $z) !== VanillaBlocks::AIR() || ($below !== VanillaBlocks::SAND() && $below !== VanillaBlocks::CACTUS()) ||
+				(
+					$world->getBlockAt($x - 1, $yy, $z) !== VanillaBlocks::AIR() || $world->getBlockAt($x + 1, $yy, $z) !== VanillaBlocks::AIR() ||
+					$world->getBlockAt($x, $yy, $z - 1) !== VanillaBlocks::AIR() || $world->getBlockAt($x, $yy, $z + 1) !== VanillaBlocks::AIR()
+				)) {
 				return false;
 			}
 		}
@@ -50,18 +53,18 @@ class Cactus extends PopulatorObject {
 	/**
 	 * Places a cactus
 	 *
-	 * @param ChunkManager $level
+	 * @param ChunkManager $world
 	 * @param int $x
 	 * @param int $y
 	 * @param int $z
 	 * @return void
 	 */
-	public function placeObject(ChunkManager $level, int $x, int $y, int $z) {
+	public function placeObject(ChunkManager $world, int $x, int $y, int $z) {
 		for($yy = 0; $yy < $this->totalHeight; $yy ++) {
-			if ($level->getBlockIdAt($x, $y + $yy, $z) != Block::AIR) {
+			if ($world->getBlockAt($x, $y + $yy, $z) !== VanillaBlocks::AIR()) {
 				return;
 			}
-			$level->setBlockIdAt($x, $y + $yy, $z, Block::CACTUS);
+			$world->setBlockAt($x, $y + $yy, $z, VanillaBlocks::CACTUS());
 		}
 	}
 }

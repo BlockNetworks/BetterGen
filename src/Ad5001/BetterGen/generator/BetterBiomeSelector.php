@@ -16,10 +16,10 @@
  */
 namespace Ad5001\BetterGen\generator;
 
-use pocketmine\level\generator\biome\Biome;
-use pocketmine\level\generator\biome\BiomeSelector;
-use pocketmine\level\generator\noise\Simplex;
 use pocketmine\utils\Random;
+use pocketmine\world\biome\Biome;
+use pocketmine\world\generator\biome\BiomeSelector;
+use pocketmine\world\generator\noise\Simplex;
 
 class BetterBiomeSelector extends BiomeSelector {
 	
@@ -32,7 +32,7 @@ class BetterBiomeSelector extends BiomeSelector {
 	protected $rainfall;
 	
 	/** @var Biome[] */
-	protected $biomes = [ ];
+	protected $biomes = [];
 
 	/** @var callable */
 	protected $lookup;
@@ -45,7 +45,7 @@ class BetterBiomeSelector extends BiomeSelector {
 	 * @param Biome $fallback
 	 */
 	public function __construct(Random $random, callable $lookup, Biome $fallback) {
-		parent::__construct($random, $lookup, $fallback);
+		parent::__construct($random);
 		$this->fallback = $fallback;
 		$this->lookup = $lookup;
 		$this->temperature = new Simplex($random, 2, 1 / 16, 1 / 512);
@@ -57,8 +57,9 @@ class BetterBiomeSelector extends BiomeSelector {
 	 *
 	 * @return void
 	 */
-	public function recalculate() {
-	} // Using our own system, No need for that
+	public function recalculate(): void{} // Using our own system, No need for that
+
+	public function lookup(float $temperature, float $rainfall): int{return 0;} //unused
 
 	/**
 	 * Adds a biome to the selector. Don't do this directly. Use BetterNormal::registerBiome
@@ -68,7 +69,7 @@ class BetterBiomeSelector extends BiomeSelector {
 	 * @return void
 	 */
 	public function addBiome(Biome $biome) {
-		$this->biomes[$biome->getId ()] = $biome;
+		$this->biomes[$biome->getId()] = $biome;
 	}
 
 	/**
@@ -76,7 +77,7 @@ class BetterBiomeSelector extends BiomeSelector {
 	 *
 	 * @param int $x
 	 * @param int $z
-	 * @return void
+	 * @return float
 	 */
 	public function getTemperature($x, $z) {
 		return ($this->temperature->noise2D($x, $z, true) + 1) / 2;
@@ -87,7 +88,7 @@ class BetterBiomeSelector extends BiomeSelector {
 	 *
 	 * @param int $x
 	 * @param int $z
-	 * @return void
+	 * @return float
 	 */
 	public function getRainfall($x, $z) {
 		return ($this->rainfall->noise2D($x, $z, true) + 1) / 2;

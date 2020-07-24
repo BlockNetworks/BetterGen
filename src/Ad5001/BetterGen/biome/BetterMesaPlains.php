@@ -22,15 +22,16 @@ use Ad5001\BetterGen\populator\CactusPopulator;
 use Ad5001\BetterGen\populator\DeadbushPopulator;
 use Ad5001\BetterGen\populator\SugarCanePopulator;
 use Ad5001\BetterGen\generator\BetterNormal;
-use pocketmine\block\Block;
-use pocketmine\block\GoldOre;
-use pocketmine\level\generator\normal\biome\SandyBiome;
+use pocketmine\block\VanillaBlocks;
+use pocketmine\world\biome\SandyBiome;
+use pocketmine\world\generator\object\OreType;
+use pocketmine\world\generator\populator\Ore;
 
-class BetterMesaPlains extends SandyBiome {
-	/**
-	 * Constructs the class
-	 */
-	public function __construct() {
+class BetterMesaPlains extends SandyBiome
+{
+
+	public function __construct()
+	{
 		parent::__construct();
 		$deadBush = new DeadbushPopulator ();
 		$deadBush->setBaseAmount(1);
@@ -44,85 +45,76 @@ class BetterMesaPlains extends SandyBiome {
 		$sugarCane->setRandomAmount(20);
 		$sugarCane->setBaseAmount(3);
 
-		$ores = Main::isOtherNS() ? new \pocketmine\level\generator\normal\populator\Ore() : new \pocketmine\level\generator\populator\Ore();
-		$ores->setOreTypes([ 
-				Main::isOtherNS() ? new \pocketmine\level\generator\normal\object\OreType(new GoldOre (), 2, 8, 0, 32) : new \pocketmine\level\generator\object\OreType(new GoldOre (), 2, 8, 0, 32) 
+		$ores = new Ore();
+		$ores->setOreTypes([
+			new OreType(VanillaBlocks::GOLD_ORE(), 2, 8, 0, 32)
 		]);
 		
-		if(!\Ad5001\BetterGen\utils\CommonUtils::in_arrayi("Cactus", BetterNormal::$options["delStruct"])) $this->addPopulator($cactus);
-		if(!\Ad5001\BetterGen\utils\CommonUtils::in_arrayi("DeadBush", BetterNormal::$options["delStruct"])) $this->addPopulator($deadBush);
-		if(!\Ad5001\BetterGen\utils\CommonUtils::in_arrayi("SugarCane", BetterNormal::$options["delStruct"])) $this->addPopulator($sugarCane);
-		if(!\Ad5001\BetterGen\utils\CommonUtils::in_arrayi("Ores", BetterNormal::$options["delStruct"])) $this->addPopulator($ores);
+		$this->addPopulator($cactus);
+		$this->addPopulator($deadBush);
+		$this->addPopulator($sugarCane);
+		$this->addPopulator($ores);
 		
 		$this->setElevation(62, 67);
-		// $this->setElevation(66, 70);
 		
 		$this->temperature = 0.6;
 		$this->rainfall = 0;
 		$this->setGroundCover([ 
-				Block::get(Block::SAND, 1),
-				Block::get(Block::SAND, 1),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 7),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 12),
-				Block::get(Block::STAINED_HARDENED_CLAY, 12),
-				Block::get(Block::STAINED_HARDENED_CLAY, 12),
-				Block::get(Block::STAINED_HARDENED_CLAY, 14),
-				Block::get(Block::STAINED_HARDENED_CLAY, 14),
-				Block::get(Block::STAINED_HARDENED_CLAY, 14),
-				Block::get(Block::STAINED_HARDENED_CLAY, 4),
-				Block::get(Block::STAINED_HARDENED_CLAY, 7),
-				Block::get(Block::STAINED_HARDENED_CLAY, 0),
-				Block::get(Block::STAINED_HARDENED_CLAY, 7),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::HARDENED_CLAY, 0),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::STAINED_HARDENED_CLAY, 1),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0),
-				Block::get(Block::RED_SANDSTONE, 0) 
+			VanillaBlocks::RED_SAND(),
+			VanillaBlocks::RED_SAND(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::GRAY_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::BROWN_STAINED_CLAY(),
+			VanillaBlocks::BROWN_STAINED_CLAY(),
+			VanillaBlocks::BROWN_STAINED_CLAY(),
+			VanillaBlocks::RED_STAINED_CLAY(),
+			VanillaBlocks::RED_STAINED_CLAY(),
+			VanillaBlocks::RED_STAINED_CLAY(),
+			VanillaBlocks::YELLOW_STAINED_CLAY(),
+			VanillaBlocks::GRAY_STAINED_CLAY(),
+			VanillaBlocks::WHITE_STAINED_CLAY(),
+			VanillaBlocks::GRAY_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::HARDENED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::ORANGE_STAINED_CLAY(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE(),
+			VanillaBlocks::RED_SANDSTONE()
 		]);
 	}
 
-	/**
-	 * Returns the name of th biome
-	 *
-	 * @return string
-	 */
-	public function getName(): string {
+	public function getName(): string
+	{
 		return "BetterMesaPlains";
 	}
-	
-	/**
-	 * Returns biome id
-	 * 
-	 * @return int
-	 */
-	public function getId(): int {
+
+	public function getId(): int
+	{
 		return 40;
 	}
 }
